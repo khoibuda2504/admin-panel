@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddPostModalComponent } from '../add-post-modal/add-post-modal.component';
-import { Post } from '../../types';
+import { NewPost, Post } from '../../types';
 import { PostStore } from '../../stores/posts.store';
 import { CommonModule } from '@angular/common';
 import { ShareDirectiveModule } from '../../directives/share.module';
@@ -22,16 +22,15 @@ import { ShareDirectiveModule } from '../../directives/share.module';
 })
 export class PostsComponent implements OnInit {
   posts: any[] = [];
-  editIndex: number | null = null;
-  editContent: string | null = '';
-  // editingItem
   searchTerm: string = '';
   showModal: boolean = false;
   posts$ = this.postStore.posts$;
   loading$ = this.postStore.loading$;
   error$ = this.postStore.error$;
+  editIdx$ = this.postStore.editIdx$;
   private searchTerms = new Subject<string>();
   constructor(private postStore: PostStore) {}
+  editContent = '';
   ngOnInit(): void {
     this.postStore.getPosts();
     this.searchTerms
@@ -54,28 +53,30 @@ export class PostsComponent implements OnInit {
     );
   }
   searchPosts(): void {
-    this.searchTerms.next(this.searchTerm);
+    this.postStore.searchPosts(this.searchTerm);
   }
-  addPost(newPost: any): void {
+  addPost(newPost: NewPost): void {
     this.postStore.addPost(newPost);
   }
   editPost(post: Post): void {
-    this.editIndex = post.id;
     this.editContent = post.body;
+    this.postStore.setEditIdx(post.id);
   }
 
   savePost(post: Post): void {
-    if (!this.editIndex) return;
     const updatedPost = {
       ...post,
       body: this.editContent,
     };
     this.postStore.updatePost(updatedPost as Post);
-    this.editIndex = null;
-    this.editContent = '';
   }
 
   deletePost(id: number): void {
     this.postStore.deletePost(id);
+  }
+  handleKeyUp(event: KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      this.postStore.setEditIdx(null);
+    }
   }
 }

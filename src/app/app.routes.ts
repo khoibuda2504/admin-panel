@@ -5,5 +5,5 @@ import { PermissionsComponent } from './components/permissions/permissions.compo
 export const routes: Routes = [
   { path: 'posts', component: PostsComponent },
   { path: 'permissions', component: PermissionsComponent },
-  { path: '', redirectTo: '/posts', pathMatch: 'full' }
+  { path: '', redirectTo: '/posts', pathMatch: 'full' },
 ];

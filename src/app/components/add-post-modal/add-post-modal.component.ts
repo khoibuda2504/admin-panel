@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import {
   FormBuilder,
@@ -12,7 +13,7 @@ import {
   standalone: true,
   templateUrl: './add-post-modal.component.html',
   styleUrls: ['./add-post-modal.component.css'],
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
 })
 export class AddPostModalComponent {
   @Output() addPost = new EventEmitter<any>();
@@ -22,7 +23,7 @@ export class AddPostModalComponent {
   constructor(private fb: FormBuilder) {
     this.postForm = this.fb.group({
       title: ['', Validators.required],
-      body: ['', [Validators.required]], // Add email validation
+      body: ['', [Validators.required]]
     });
   }
   handleAddPost(): void {
@@ -30,7 +31,7 @@ export class AddPostModalComponent {
       title: this.postForm.value.title,
       body: this.postForm.value.body,
     };
-
+console.log('newPost:::::', newPost)
     this.addPost.emit(newPost);
     this.postForm.reset();
     this.closeModal.emit();

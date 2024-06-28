@@ -1,0 +1,11 @@
+<ul>
+  <li *ngFor="let node of tree" class="tree-node">
+    <input [id]="parentName + node.name" type="checkbox" [checked]="node.checked"
+      (change)="onCheckboxChange(node, $event)">
+    {{ node.name }}
+
+    <ng-container *ngIf="node.children.length > 0">
+      <app-tree [tree]="node.children" [parentName]="parentName + node.name"></app-tree>
+    </ng-container>
+  </li>
+</ul>

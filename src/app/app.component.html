@@ -1,11 +1,50 @@
-<div class="flex">
-  <nav class="w-1/6 bg-gray-800 text-white h-screen">
+<header class="bg-blue-600 text-white shadow p-4 flex justify-between items-center fixed top-0 z-50 w-full px-4 xl:px-10">
+  <h1 class="text-2xl font-bold">Admin panel</h1>
+  <nav class="hidden md:flex space-x-4">
+    <a routerLink="/posts" class="hover:text-gray-300">Posts</a>
+    <a routerLink="/permissions" class="hover:text-gray-300">Permissions</a>
+  </nav>
+  <div class="md:hidden">
+    <button class="focus:outline-none" (click)="isShow = true">
+      <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </div>
+  <div class="fixed inset-0 bg-gray-800 text-white z-50 transition-transform transform"
+    [class.translate-x-full]="!isShow">
+    <div class="flex justify-between items-center p-4">
+      <h2 class="text-xl font-bold">Menu</h2>
+      <button class="focus:outline-none" (click)="isShow = false">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
     <ul class="mt-4">
-      <li><a routerLink="/posts" class="block px-4 py-2 rounded hover:bg-gray-700 hover:text-gray-300">Posts Management</a></li>
-      <li><a routerLink="/permissions" class="block px-4 py-2 rounded hover:bg-gray-700 hover:text-gray-300">Permissions Management</a></li>
+      <li>
+        <a routerLink="/posts" (click)="isShow = false"
+          class="block px-4 py-2 rounded hover:bg-gray-700 hover:text-gray-300">Posts
+          Management</a>
+      </li>
+      <li>
+        <a routerLink="/permissions" (click)="isShow = false"
+          class="block px-4 py-2 rounded hover:bg-gray-700 hover:text-gray-300">Permissions
+          Management</a>
+      </li>
+    </ul>
+  </div>
+</header>
+<div class="flex mt-16">
+  <nav class="hidden md:block w-1/6 bg-gray-800 text-white min-h-screen">
+    <ul class="mt-4">
+      <li><a routerLink="/posts" class="block px-4 py-2 rounded hover:bg-gray-700 hover:text-gray-300">Posts
+          Management</a></li>
+      <li><a routerLink="/permissions" class="block px-4 py-2 rounded hover:bg-gray-700 hover:text-gray-300">Permissions
+          Management</a></li>
     </ul>
   </nav>
-  <div class="w-5/6 p-4">
+  <div class="w-full md:w-5/6 p-4">
     <router-outlet></router-outlet>
   </div>
 </div>

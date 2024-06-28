@@ -4,15 +4,17 @@
     <form [formGroup]="postForm" (ngSubmit)="handleAddPost()">
       <div class="mb-2">
         <label class="block mb-1" for="title">Title:</label>
-        <input type="text" id="title" name="title" formControlName="title" required class="w-full border rounded p-2">
+        <input type="text" id="title" name="title" formControlName="title" class="w-full border rounded p-2">
       </div>
       <div class="mb-2">
         <label class="block mb-1" for="body">Body:</label>
-        <input id="body" name="body" formControlName="body" required class="w-full border rounded p-2">
+        <input id="body" name="body" formControlName="body" class="w-full border rounded p-2">
       </div>
       <div class="flex gap-3 justify-end">
-        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Save</button>
-        <button class="bg-red-500 text-white px-4 py-2 rounded" (click)="closeModal.emit()">Close</button>
+        <button [disabled]="postForm.invalid" type="submit" class="bg-green-500 text-white px-4 py-2 rounded"
+        [ngStyle]="{'opacity': postForm.invalid ? '0.5' : '1'}"
+        >Save</button>
+        <button type="button" class="bg-red-500 text-white px-4 py-2 rounded" (click)="closeModal.emit()">Close</button>
       </div>
     </form>
   </div>

@@ -5,48 +5,55 @@
 </div>
 }
 @else {
-<div class="flex justify-between">
-  <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded max-w-[100px]" (click)="showModal = true">Add
-    Post</button>
-  <input type="text" [(ngModel)]="searchTerm" (change)="searchPosts()" placeholder="Search by title"
-    class="w-full border rounded p-2 max-w-[300px]">
-</div>
-{{editContent}}
 <div class="container mx-auto">
-  <h1 class="text-2xl font-bold mb-4">Posts Management</h1>
-  <table class="min-w-full border-collapse border border-gray-400">
-    <thead>
-      <tr>
-        <th class="border border-gray-300 p-2">ID</th>
-        <th class="border border-gray-300 p-2">Title</th>
-        <th class="border border-gray-300 p-2">Body</th>
-        <th class="border border-gray-300 p-2">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (post of posts$ | async; track post.id) {
-      <tr>
-        <td class="border border-gray-300 p-2">{{ post.id }}</td>
-        <td class="border border-gray-300 p-2">{{ post.title }}</td>
-        <td class="border border-gray-300 p-2">
-          @if (editIndex === post.id) {
-          <input type="text" [(ngModel)]="editContent" class="w-full border rounded">
-          }
-          @else {
-          {{ post.body }}
-          }
-        </td>
-        <td class="border border-gray-300 p-2">
-          <button class="bg-blue-500 text-white px-2 py-1 rounded"
-            (click)="editIndex === post.id ? savePost(post) : editPost(post)">
-            {{ editIndex === post.id ? 'Save' : 'Edit' }}
-          </button>
-          <button class="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
-        </td>
-      </tr>
-      }
-    </tbody>
-  </table>
+  <div class="block space-y-4 sm:flex sm:justify-between sm:space-x-0 sm:space-y-0">
+    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded max-w-[100px] mr-2 sm:mr-0" (click)="showModal = true">Add
+      Post</button>
+    <input type="text" [(ngModel)]="searchTerm" (change)="searchPosts()" placeholder="Search by title"
+      class="w-full border rounded p-2 max-w-[300px]">
+  </div>
+  <div>
+    <h1 class="text-2xl font-bold mb-4">Posts Management</h1>
+    <table class="min-w-full border-collapse border border-gray-400">
+      <thead>
+        <tr>
+          <th class="border border-gray-300 p-2">ID</th>
+          <th class="border border-gray-300 p-2">Title</th>
+          <th class="border border-gray-300 p-2">Body</th>
+          <th class="border border-gray-300 p-2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (post of posts$ | async; track post.id) {
+        <tr>
+          <td class="border border-gray-300 p-2">{{ post.id }}</td>
+          <td class="border border-gray-300 p-2">{{ post.title }}</td>
+          <td class="border border-gray-300 p-2">
+            @if ((editIdx$ | async) === post.id) {
+            <textarea type="text" [(ngModel)]="editContent" class="w-full border rounded"
+              (keydown)="handleKeyUp($event)"></textarea>
+            }
+            @else {
+            {{ post.body }}
+            }
+          </td>
+          <td class="border border-gray-300 p-2">
+            @if ((editIdx$ | async) === post.id) {
+            <button class="bg-blue-500 text-white px-2 py-1 rounded" (click)="savePost(post)">
+              Save
+            </button>
+            } @else {
+            <button class="bg-blue-500 text-white px-2 py-1 rounded" (click)="editPost(post)">
+              Edit
+            </button>
+            }
+            <button class="bg-red-500 text-white px-2 py-1 rounded" (click)="deletePost(post.id)">Delete</button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>
 @if (showModal) {
 <app-add-post-modal (addPost)="addPost($event)" (closeModal)="showModal = false"></app-add-post-modal>
