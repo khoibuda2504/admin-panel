@@ -4,8 +4,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Instructions set up
 
-Node version during developing: 20.0.0
-Command to install: `pnpm install`
+* Node version during developing: 20.0.0
+* Command to install: `pnpm install`
 
 ## Development server
 
