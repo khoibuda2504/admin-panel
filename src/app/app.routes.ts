@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { PostsComponent } from './components/posts/posts.component';
-import { PermissionsComponent } from './components/permissions/permissions.component';
+import { PostsComponent } from './posts/posts.component';
+import { PermissionsComponent } from './permissions/permissions.component';
 
 export const routes: Routes = [
   { path: 'posts', component: PostsComponent },

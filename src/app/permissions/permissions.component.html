@@ -1,0 +1,13 @@
+<div class="container mx-auto flex flex-wrap space-x-4">
+  <div class="w-full sm:w-1/4">
+    <app-tree [tree]="rootTree"></app-tree>
+  </div>
+  <div class="bg-gray-800 text-white p-4 rounded-lg flex-1 h-fit w-full mt-3 sm:mt-0 sm:sticky sm:top-20">
+    <h3 class="text-lg font-bold mb-2">Permissions console:</h3>
+    <div #console class="h-80 overflow-y-auto p-2 border border-gray-700 rounded-lg">
+      @for(permission of selectedPermission$ | async; track permission) {
+        <p class="bg-gray-900 p-2 rounded-md mb-1">{{ permission }}</p>
+      }
+    </div>
+  </div>
+</div>
